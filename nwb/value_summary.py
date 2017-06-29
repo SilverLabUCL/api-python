@@ -6,6 +6,7 @@
 # compatibility.
 
 import json
+import numbers
 import numpy as np
 from sys import version_info
 import zlib
@@ -22,10 +23,13 @@ except NameError:
 # global variable, for checking if string is printable
 printset = set(string.printable)
 
-# convert an integer to an string of letters
-# this done so hashes are all letters and thus not used by function combine_messages 
+
 def int2alph(val):
-    assert isinstance(val, (int, long))
+    """Convert an integer to an string of letters.
+
+    This is done so hashes are all letters and thus not used by function combine_messages.
+    """
+    assert isinstance(val, numbers.Integral)
     alph = []
     num_chars = 52  # a-z, A-Z
     while val > 0:
@@ -34,7 +38,7 @@ def int2alph(val):
         alph.append(new_char)
     strval = "".join(reversed(alph))
     return (strval)
-     
+
 # make a hash of value (must be bytes)
 def hashval(val):
     crc = zlib.adler32(val) & 0xffffffff
