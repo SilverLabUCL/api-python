@@ -4833,6 +4833,11 @@ class Node(object):
                 # convert string value to numpy string, so string in hdf5 file will be fixed length
                 # see: http://docs.h5py.org/en/latest/strings.html
                 value = np.string_(value)
+            if 'nv' not in ats[aid]:
+                dtype = ats[aid].get('data_type', '')
+                dtype = getattr(np, dtype, None)
+                if dtype:
+                    value = dtype(value)
             # save attribute value for later validation
             self.h5attrs[aid] = value
 #                 self.h5node.attrs[aid] = value
